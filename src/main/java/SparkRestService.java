@@ -47,5 +47,11 @@ public class SparkRestService {
            controller.addMessage(message);
            return new Gson().toJson(new StandardResponse(Status.SUCCESS));
         });
+
+        //Viewing messages in the db.
+        get("/message", (req,res) -> {
+           res.type("application/json");
+           return new Gson().toJson(new StandardResponse(Status.SUCCESS, new Gson().toJsonTree(controller.getMessages())));
+        });
     }
 }

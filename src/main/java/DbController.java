@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DbController {
     private Connection connection;
@@ -74,5 +75,26 @@ public class DbController {
 
     }
 
+    //Getting messages from a db and putting it in an ArrayList for displaying as Json.
+    public ArrayList<String> getMessages(){
+        String text, userId, output;
+        ArrayList<String> arrayList = new ArrayList<>();
+        String query = "SELECT * FROM Messages";
 
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                text = resultSet.getString(2);
+                userId = resultSet.getString(3);
+                output = (userId + ": " + text);
+                arrayList.add(output);
+            }
+            return arrayList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
