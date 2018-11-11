@@ -21,7 +21,7 @@ public class DbController {
 
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,user.getId());
+            preparedStatement.setInt(1,user.getId());
             preparedStatement.setString(2,user.getUsername());
             preparedStatement.setString(3,user.getPassword());
             preparedStatement.executeUpdate();
@@ -33,7 +33,8 @@ public class DbController {
     //Login method that checks if a username and password is in database and returns user object.
     public User userLogging(String username, String password){
         User validUser;
-        String userId, name, pass;
+        int userId;
+        String name, pass;
         String query = "SELECT * FROM Users WHERE username = (?) AND password = (?)";
 
         try {
@@ -42,7 +43,7 @@ public class DbController {
             preparedStatement.setString(2,password);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            userId = resultSet.getString(1);
+            userId = resultSet.getInt(1);
             name = resultSet.getString(2);
             pass = resultSet.getString(3);
 
@@ -55,6 +56,22 @@ public class DbController {
         }
 
         return null;
+    }
+
+    //Adding user's message to the db.
+    public void addMessage(Message message){
+       String query = "INSERT INTO Messages VALUES (?,?,?)";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, message.getId());
+            preparedStatement.setString(2,message.getText());
+            preparedStatement.setInt(3,message.getUserId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

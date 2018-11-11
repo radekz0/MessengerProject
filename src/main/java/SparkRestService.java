@@ -12,7 +12,7 @@ public class SparkRestService {
         DbController controller = new DbController();
         List<User> usersOnline = Collections.synchronizedList(new ArrayList<>());
 
-        //Users
+        //Adding user to the db.
         post("/register", (req,res) -> {
             res.type("application/json");
             User user = new Gson().fromJson(req.body(), User.class);
@@ -20,6 +20,7 @@ public class SparkRestService {
             return new Gson().toJson(new StandardResponse(Status.SUCCESS));
         });
 
+        //Logging in.
         get("/login/:username/:password", (req,res) -> {
             res.type("application/json");
             try{
@@ -39,5 +40,12 @@ public class SparkRestService {
 
         });
 
+        //Adding messages to the db.
+        post("/message", (req,res) -> {
+           res.type("application/json");
+           Message message = new Gson().fromJson(req.body(), Message.class);
+           controller.addMessage(message);
+           return new Gson().toJson(new StandardResponse(Status.SUCCESS));
+        });
     }
 }

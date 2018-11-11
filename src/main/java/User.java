@@ -1,16 +1,16 @@
 
 public class User {
-    private String id;
+    private int id;
     private String username;
     private String password;
 
-    User(String id, String username, String password){
+    User(int id, String username, String password){
         this.id = id;
         this.username = username;
         this.password = password;
     }
 
-    public String getId(){
+    public int getId(){
         return id;
     }
 
@@ -22,7 +22,7 @@ public class User {
         return password;
     }
 
-    public void setId(String id){
+    public void setId(int id){
         this.id = id;
     }
 
